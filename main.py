@@ -1,15 +1,17 @@
-import cv2
+import threading
 import time
+import cv2
 from azure.cognitiveservices.vision.face import FaceClient
 from msrest.authentication import CognitiveServicesCredentials
 
-import threading
 
-subscription_key=""
-endpoint=""
-face_client=FaceClient(endpoint, CognitiveServicesCredentials(subscription_key))
+KEY = "c65bddeb6a284a419851306deb977d4b"
+ENDPOINT = "https://facedetect44.cognitiveservices.azure.com/"
 
-class FaceDetector(threading.Thread):
+face_client = FaceClient(ENDPOINT, CognitiveServicesCredentials(KEY))
+
+
+class EmotionDetector(threading.Thread):
 
 	def __init__(self, threadID, name):
 		threading.Thread.__init__(self)
@@ -101,7 +103,7 @@ class FaceDetector(threading.Thread):
 	    return left, top, width, height
 
 
-detector = FaceDetector(1, "Face Detection - Azure")
-detector.start()
-time.sleep(0.5)
-detector.detector()
+detect = EmotionDetector(1, "Emotion Detection - Azure")
+detect.start()
+time.sleep(1)
+detect.detector()
